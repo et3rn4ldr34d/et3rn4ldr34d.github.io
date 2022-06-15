@@ -30,10 +30,10 @@ twitter_username: jekyllrb
 github_username:  jekyll
 
 # Build settings
-remote_theme: pages-themes/hacker@v0.2.0
-plugins:
-  - jekyll-remote-theme # add this line to the plugins list if you already have one
-  - jekyll-feed
+theme: jekyll-theme-hacker
+show_downloads: true
+google_analytics:
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
