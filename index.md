@@ -4,4 +4,7 @@
 
 layout: default
 ---
-This is a test.
+To Do:
+    > Format code with Jekyll
+    > Add Blog Directory
+    > Complete Layout
