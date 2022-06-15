@@ -28,7 +28,7 @@ twitter_username: viol3nthacks
 github_username:  viol3nthacks
 
 # Build settings
-theme: minima
+theme: slate
 plugins:
   - jekyll-feed
 
