@@ -7,7 +7,13 @@ layout: default
 
 =========
 
-# Work In Progress
+# Installing...
 
-Configuring Jekyll is a pain in the class.
+Check back for:
+ > CTF Walkthroughs
+ > Bug Bounty Documentation
+ > Blue Team Strategies/Best Practices
+ > Security Engineering Development Tutorials
+
+@viol3nthacks
 
