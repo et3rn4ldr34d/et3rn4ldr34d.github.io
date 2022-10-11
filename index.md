@@ -10,10 +10,10 @@ layout: default
 # Installing...
 
 Check back for:
- > CTF Walkthroughs
- > Bug Bounty Documentation
- > Blue Team Strategies/Best Practices
- > Security Engineering Development Tutorials
+ > CTF Walkthroughs <br>
+ > Bug Bounty Documentation <br>
+ > Blue Team Strategies/Best Practices <br>
+ > Security Engineering Development Tutorials <br>
 
 @viol3nthacks
 
