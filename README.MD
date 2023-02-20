@@ -1,19 +1,22 @@
 # InfoSec Blog
 
-## Statement
+## Purpose
 
 Post informative content in order to educate and learn.
 
 ### To Do
 
-- Proper CSS Formatting/Template
-- Test Post
-- Content Map
-- Metrics
-- Funnels
-- Clean Up README/Filesystem
+- Routing
 - Documentation
+- 
 
 #### Jekyll Notes
 
-Keep Jekyll Notes here for now
+Serve w/reload:
+> bundle exec jekyll serve --livereload
+
+Posts:
+> The naming convention of these files is important, and must follow the format: YEAR-MONTH-DAY-title.MARKUP. The permalinks can be customized for each post, but the date and markup language are determined solely by the file name.
+
+#### Markdown Notes
+

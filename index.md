@@ -10,7 +10,9 @@ layout: default
 # Installing...
 
 Check back for:
+ > Methodology <br>
  > CTF Walkthroughs <br>
+ > Web3 Code Auditing <br>
  > Bug Bounty Documentation <br>
  > Blue Team Strategies/Best Practices <br>
  > Security Engineering Development Tutorials <br>
@@ -18,3 +20,12 @@ Check back for:
 @viol3nthacks
 
 # Complete.
+
+=========
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

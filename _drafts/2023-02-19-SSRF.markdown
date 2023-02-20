@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "SSRF"
+date:   2023-02-19 00:44:28 -0700
+categories: jekyll update
+---
+# **SSRF - Server-Side Request Forgery**
+
+## What is it?
+
+## How do I look for it?
+
+## How do I exploit it?
+
+## What is the impact?
+
+## How do I remidiate it?
+
+## Where can I learn more?
