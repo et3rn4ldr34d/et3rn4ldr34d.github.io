@@ -1,0 +1,13 @@
+---
+layout: post
+title: "Sources and Sinks"
+date:   2023-02-24 00:44:28 -0700
+categories: jekyll update
+---
+https://blog.deesee.xyz/regex/security/2020/12/27/regular-expression-injection.html
+https://github.com/0xSobky/HackVault/wiki/Regaxor:-Fuzzing-Regexes-for-Fun-and-Not%E2%80%90So%E2%80%90Much-Profit
+https://regexr.com/
+https://www.regexpal.com/
+https://regex101.com/
+https://github.com/0xSobky/Regaxor
+https://blog.deesee.xyz/regex/security/2020/12/27/regular-expression-injection.html

@@ -1,0 +1,111 @@
+---
+layout: post
+title:  "XSS"
+date:   2023-02-19 00:44:28 -0700
+categories: jekyll update
+---
+# **XSS - Cross-Site Scripting**
+
+## What is it?
+
+Cross-Site Scripting (XSS) attacks are a type of injection, in which malicious scripts are injected into otherwise benign and trusted websites.  If an application fails to distinguish between user inpus and the legitimate code that makes up a web page, attackers can inject their own code into pages viewed by others.  Once executed, these scripts can steal cookies, leak PII, change site contents, or redirect the user to a malisious site.
+
+However, it is important to realize that just because code can be injected into a website does not mean it is exploitable, until the code can be executed on a visitor's browser.  This is important to keep in mind for Bug Bounty, as you will need to provide Proof of Concept.
+
+### Stored XSS
+
+Stored XSS happens when user input is stored on a server and retrieved unsafely.  It is the most severe XSS type, with a high potential to attack more users than the other forms of XSS.  This type of payload can be executed without user interaction by simply visiting a site containing a malicious payload, as opposed to others which require the user to click a link or take other actions.<br>
+
+There are different ways to accomplish this: Inject the script into a database, server logs, message board, comment fields.
+
+### Blind XSS
+
+Blind XSS are stored XSS who's input is stored but executed in a part of the application or another application you can't see.  For example, some sites allow you to contact them, and if a payload is delivered without sanitation or validation, it is exploitable.  These are harder as there are no visual cues, but are just as dangerous.
+
+### Reflected XSS
+
+Reflected XSS happens when the user input is returned to the user without being stored.  The app takes input, processes it, then returns it to user.
+
+The key to this vulnerability is to get users to click on a link or interact with a malicious version of what appears as a legitimate site.  For example, if the user clicks on a link where the script is inserted into the address bar, the attacker can then execute anything they wish on the victim's device.
+
+### DOM-Based XSS
+
+DOM is similar to Reflected XSS, except with the DOM the input doesn't leave the browser.  jQuery is prone to DOM XSS since they dynamically alter the DOM.  The same type of link can be sent to the victim, and the difference is that the server is not processing the payload, the browser is.<br>
+
+To find, look for URL fragments that start with # character.  These are usually redirect point that changes the DOM based on input, and can be used for this type of XSS.  Example:
+> https://example.com#about_us
+
+### Self-XSS
+
+These are more of a social engineering type of attack than any others.  As such, their relevance in regards to Bug Bounty is questionable, nevertheless they do exist in a similar manner as the others.  The difference with Self-XSS is that the field that is needed to be edited is not accessable to the attacker.  These types of attacks are executed by getting the user to unsuspectingly input the payload into the correct areas, typically by clicking an obscured link either by shortening (bit.ly, etc), or other form of social engineering.
+
+For example, say the site is vulnerable, but only allows access to user accounts that are signed in.  By having a user that is logged into an account, the payload is able to be executed and the victim compromised.
+
+## How do I look for it?
+
+The best way to find flaws is to perform a security review of the code and search for all places where input from an HTTP request could possibly make its way into the HTML output. Note that a variety of different HTML tags can be used to transmit a malicious JavaScript. Nessus, Nikto, and some other available tools can help scan a website for these flaws, but can only scratch the surface. If one part of a website is vulnerable, there is a high likelihood that there are other problems as well.
+
+**Look in places that user input gets rendered on a page.**  While the process will vary for the different types of XSS, the core principle remains the same: check for reflected user input.
+
+Don't limit to text input fields, sometimes other areas such as drop-down menus allow you to insert requests using a proxy.
+
+Look for user input in URL parameters, fragments or pathnames that get displayed to the user.  If you use a custom string, you can search for it throughout the page's source code.
+
+## What is the impact?
+
+The consequence of an XSS attack is the same regardless of whether it is stored or reflected (or DOM Based). The difference is in how the payload arrives at the server. Do not be fooled into thinking that a “read-only” or “brochureware” site is not vulnerable to serious reflected XSS attacks. XSS can cause a variety of problems for the end user that range in severity from an annoyance to complete account compromise. The most severe XSS attacks involve disclosure of the user’s session cookie, allowing an attacker to hijack the user’s session and take over the account. Other damaging attacks include the disclosure of end user files, installation of Trojan horse programs, redirecting the user to some other page or site, or modifying presentation of content. An XSS vulnerability allowing an attacker to modify a press release or news item could affect a company’s stock price or lessen consumer confidence. An XSS vulnerability on a pharmaceutical site could allow an attacker to modify dosage information resulting in an overdose. For more information on these types of attacks see Content_Spoofing.
+
+## How do I exploit it?
+
+The malicious content sent to the web browser often takes the form of a segment of JavaScript, but may also include HTML, Flash, or any other type of code that the browser may execute. The variety of attacks based on XSS is almost limitless, but they commonly include transmitting private data, like cookies or other session information, to the attacker, redirecting the victim to web content controlled by the attacker, or performing other malicious operations on the user’s machine under the guise of the vulnerable site.
+
+The simplest way to test is through an alert box:
+><script>alert('My_XSS');</script>
+
+You can also use URL schemes like javascript: and data:.
+>javascript:alert('My_XSS')
+>data:text/html;<script>alert('My_XSS')</script>
+>data:text/html;base64, //insert base64 encoded script here
+
+Going beyond javascript, some HTML attributes are also susceptable, such as onload or onclick.
+
+## What are some obscure use-cases?
+
+You will need to close out the original HTML tag in order to exploit a few potential XSS.<br>
+Example:
+>"/><script>location="http://malicious.com";</script>
+The first 3 characters will close out a tag, completing the request.  Without these, the payload would return an error instead of executing.  You can check for proper execution through your proxy.<br>
+
+You can find a collection of XSS payloads at: https://github.com/payloadbox/xss-payload-list <br>
+
+**Bypassing XSS Protection**
+Try different schemes to bypass the safeguards in place.  As mentioned before, you can use HTML tags.  Also, at times <script> itself is sanitized, and would be a good place to try the alternative syntax javascript: or data:.<br>
+
+You can also mix encoding and capitalizations to confuse the XSS filter.  If the application filters special HTML characters like single/double quores, you can't write any XSS payloads directly.  Instead, you can use a Javascript fromCharCode() function, and create ASCII characters to form the string you need.<br>
+
+Look for filter logic errors.  Just because an input is validated and sanitized doesn't mean that it's done correctly. Fuzzing parameters is one of the most effective ways to do this.<br>
+
+Last, make sure you try to escalate the attack.  Proof of Concept is crucial with Bug Bounty, and being able to demonstrate a more severe impact bug will lead to success.
+
+## What tools can I use?
+
+XSS Hunter has been deprecated, but it's main objective was to automate XSS hunting.  As a reliable fork becomes available, I will update this page.<br>
+
+Burp Suite and Fuzzers can help speed the process of seeking XSS.  Polyglot payloads can also work, but be aware that using these could potentially miss exploits due to the generalized nature of such payloads.
+
+## How do I remidiate it?
+
+The primary defenses against XSS are described in the OWASP XSS Prevention Cheat Sheet.
+
+Validating and sanitizing user input to prevent malicious code or characters is one of the most effective ways to mitigate this threat, but ensure that it is done properly and thoroughly.  Even one possible attack vector could lead to a full system compromise, so it is important to be done well.
+
+Also, it’s crucial that you turn off HTTP TRACE support on all web servers. An attacker can steal cookie data via Javascript even when document.cookie is disabled or not supported by the client. This attack is mounted when a user posts a malicious script to a forum so when another user clicks the link, an asynchronous HTTP Trace call is triggered which collects the user’s cookie information from the server, and then sends it over to another malicious server that collects the cookie information so the attacker can mount a session hijack attack. This is easily mitigated by removing support for HTTP TRACE on all web servers.
+
+In addition, session cookies with the HttpOnly flag will not be able to be read by Javascript, which can add another small layer of protection.
+
+The OWASP ESAPI project has produced a set of reusable security components in several languages, including validation and escaping routines to prevent parameter tampering and the injection of XSS attacks. In addition, the OWASP WebGoat Project training application has lessons on Cross-Site Scripting and data encoding.
+
+## Where can I learn more?
+
+https://owasp.org/www-community/attacks/xss/
+https://portswigger.net/web-security/cross-site-scripting/cheat-sheet/

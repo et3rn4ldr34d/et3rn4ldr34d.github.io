@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "XSS"
+title:  "Advanced XSS"
 date:   2023-02-19 00:44:28 -0700
 categories: jekyll update
 ---
-# **XSS - Cross Site Scripting**
+# **Advanced XSS**
 
 ## What is it?
 
