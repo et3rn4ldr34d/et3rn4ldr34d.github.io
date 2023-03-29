@@ -6,6 +6,8 @@ categories: jekyll update
 ---
 # **XSS - Cross-Site Scripting**
 
+> Please Note, Exploitable Scripts are commented out.
+
 ## What is it?
 
 Cross-Site Scripting (XSS) attacks are a type of injection, in which malicious scripts are injected into otherwise benign and trusted websites.  If an application fails to distinguish between user inpus and the legitimate code that makes up a web page, attackers can inject their own code into pages viewed by others.  Once executed, these scripts can steal cookies, leak PII, change site contents, or redirect the user to a malisious site.
@@ -60,12 +62,12 @@ The consequence of an XSS attack is the same regardless of whether it is stored 
 The malicious content sent to the web browser often takes the form of a segment of JavaScript, but may also include HTML, Flash, or any other type of code that the browser may execute. The variety of attacks based on XSS is almost limitless, but they commonly include transmitting private data, like cookies or other session information, to the attacker, redirecting the victim to web content controlled by the attacker, or performing other malicious operations on the user’s machine under the guise of the vulnerable site.
 
 The simplest way to test is through an alert box:
-><script>alert('My_XSS');</script>
+> // <script>alert('My_XSS');</script>
 
 You can also use URL schemes like javascript: and data:.
->javascript:alert('My_XSS')
->data:text/html;<script>alert('My_XSS')</script>
->data:text/html;base64, //insert base64 encoded script here
+> // javascript:alert('My_XSS')
+> // data:text/html;<script>alert('My_XSS')</script>
+> // data:text/html;base64, //insert base64 encoded script here
 
 Going beyond javascript, some HTML attributes are also susceptable, such as onload or onclick.
 
@@ -73,7 +75,7 @@ Going beyond javascript, some HTML attributes are also susceptable, such as onlo
 
 You will need to close out the original HTML tag in order to exploit a few potential XSS.<br>
 Example:
->"/><script>location="http://malicious.com";</script>
+> // "/><script>location="http://malicious.com";</script>
 The first 3 characters will close out a tag, completing the request.  Without these, the payload would return an error instead of executing.  You can check for proper execution through your proxy.<br>
 
 You can find a collection of XSS payloads at: https://github.com/payloadbox/xss-payload-list <br>
